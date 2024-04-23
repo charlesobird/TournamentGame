@@ -1,0 +1,18 @@
+[
+  {
+    "Name": "Test",
+    "Hp": 10,
+    "Element": "Earth",
+    "MaxHealth": 100,
+    "Dexterity": 10,
+    "Wisdom": 10
+  },
+  {
+    "Name": "Charles",
+    "Hp": 10,
+    "Element": "Air",
+    "MaxHealth": 100,
+    "Dexterity": 10,
+    "Wisdom": 10
+  }
+]

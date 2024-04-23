@@ -1,0 +1,15 @@
+c:\Users\nnnnew\Desktop\TournamentGame\bin\Debug\net8.0\TournamentGame.exe
+c:\Users\nnnnew\Desktop\TournamentGame\bin\Debug\net8.0\TournamentGame.deps.json
+c:\Users\nnnnew\Desktop\TournamentGame\bin\Debug\net8.0\TournamentGame.runtimeconfig.json
+c:\Users\nnnnew\Desktop\TournamentGame\bin\Debug\net8.0\TournamentGame.dll
+c:\Users\nnnnew\Desktop\TournamentGame\bin\Debug\net8.0\TournamentGame.pdb
+c:\Users\nnnnew\Desktop\TournamentGame\obj\Debug\net8.0\TournamentGame.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\nnnnew\Desktop\TournamentGame\obj\Debug\net8.0\TournamentGame.AssemblyInfoInputs.cache
+c:\Users\nnnnew\Desktop\TournamentGame\obj\Debug\net8.0\TournamentGame.AssemblyInfo.cs
+c:\Users\nnnnew\Desktop\TournamentGame\obj\Debug\net8.0\TournamentGame.csproj.CoreCompileInputs.cache
+c:\Users\nnnnew\Desktop\TournamentGame\obj\Debug\net8.0\TournamentGame.dll
+c:\Users\nnnnew\Desktop\TournamentGame\obj\Debug\net8.0\refint\TournamentGame.dll
+c:\Users\nnnnew\Desktop\TournamentGame\obj\Debug\net8.0\TournamentGame.pdb
+c:\Users\nnnnew\Desktop\TournamentGame\obj\Debug\net8.0\TournamentGame.genruntimeconfig.cache
+c:\Users\nnnnew\Desktop\TournamentGame\obj\Debug\net8.0\ref\TournamentGame.dll
+c:\Users\nnnnew\Desktop\TournamentGame\obj\Debug\net8.0\TournamentGame.sourcelink.json

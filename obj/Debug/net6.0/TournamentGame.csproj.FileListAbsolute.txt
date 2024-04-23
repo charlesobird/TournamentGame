@@ -1,0 +1,17 @@
+D:\Personal\TournamentGames\TournamentGame\obj\Debug\net6.0\TournamentGame.csproj.AssemblyReference.cache
+D:\Personal\TournamentGames\TournamentGame\obj\Debug\net6.0\TournamentGame.GeneratedMSBuildEditorConfig.editorconfig
+D:\Personal\TournamentGames\TournamentGame\obj\Debug\net6.0\TournamentGame.AssemblyInfoInputs.cache
+D:\Personal\TournamentGames\TournamentGame\obj\Debug\net6.0\TournamentGame.AssemblyInfo.cs
+D:\Personal\TournamentGames\TournamentGame\obj\Debug\net6.0\TournamentGame.csproj.CoreCompileInputs.cache
+D:\Personal\TournamentGames\TournamentGame\bin\Debug\net6.0\TournamentGame.exe
+D:\Personal\TournamentGames\TournamentGame\bin\Debug\net6.0\TournamentGame.deps.json
+D:\Personal\TournamentGames\TournamentGame\bin\Debug\net6.0\TournamentGame.runtimeconfig.json
+D:\Personal\TournamentGames\TournamentGame\bin\Debug\net6.0\TournamentGame.dll
+D:\Personal\TournamentGames\TournamentGame\bin\Debug\net6.0\TournamentGame.pdb
+D:\Personal\TournamentGames\TournamentGame\obj\Debug\net6.0\TournamentGame.dll
+D:\Personal\TournamentGames\TournamentGame\obj\Debug\net6.0\refint\TournamentGame.dll
+D:\Personal\TournamentGames\TournamentGame\obj\Debug\net6.0\TournamentGame.pdb
+D:\Personal\TournamentGames\TournamentGame\obj\Debug\net6.0\TournamentGame.genruntimeconfig.cache
+D:\Personal\TournamentGames\TournamentGame\obj\Debug\net6.0\ref\TournamentGame.dll
+D:\Personal\TournamentGames\TournamentGame\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\Personal\TournamentGames\TournamentGame\obj\Debug\net6.0\TournamentGame.csproj.CopyComplete
