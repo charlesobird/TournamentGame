@@ -1,18 +1,20 @@
-[
-  {
-    "Name": "Test",
-    "Hp": 10,
-    "Element": "Earth",
-    "MaxHealth": 100,
-    "Dexterity": 10,
-    "Wisdom": 10
-  },
-  {
-    "Name": "Charles",
-    "Hp": 10,
+{
+  "Charlie": {
+    "RoundsWon": 5,
+    "TheWiseOne": true,
+    "Hp": 18,
     "Element": "Air",
-    "MaxHealth": 100,
-    "Dexterity": 10,
-    "Wisdom": 10
+    "MaxHealth": 136,
+    "Dexterity": 13,
+    "Wisdom": 12
+  },
+  "Untold": {
+    "RoundsWon": 5,
+    "TheWiseOne": true,
+    "Hp": 9,
+    "Element": "Fire",
+    "MaxHealth": 118,
+    "Dexterity": 5,
+    "Wisdom": 7
   }
-]
+}

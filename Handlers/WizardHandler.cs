@@ -1,41 +1,69 @@
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 using TournamentGame.Models;
+
+using static TournamentGame.Utils;
 
 namespace TournamentGame.Handlers;
 
-internal class WizardHandler
+class WizardHandler
 {
-
+    public static Dictionary<string, PlayerWizard> Wizards { get; set; }
     public JsonHandler storage = new JsonHandler();
-
-    bool _IsNullOrEmpty<T>(IEnumerable<T> list)
+    public WizardHandler()
     {
-        return !(list?.Any() ?? false);
+        Wizards = GetWizards();
     }
-    public IEnumerable<Wizard> GetWizards()
+    public void CheckForWizardStore()
     {
-        IEnumerable<Wizard> wizards = storage.ReadFromFile<IEnumerable<Wizard>>(@"wizards.json");
+        if (!File.Exists(WIZARD_STORE_FILE_NAME))
+        {
+            File.Create(WIZARD_STORE_FILE_NAME);
+        }
+    }
+    public Dictionary<string, PlayerWizard> GetWizards()
+    {
+        var wizards = storage.ReadFromFile<Dictionary<string, PlayerWizard>>(WIZARD_STORE_FILE_NAME);
         return wizards;
     }
 
-    public Wizard GetWizard(string name, string element = "NONE")
+    public PlayerWizard GetWizard(string name, string element = "NONE")
     {
-        // if (CheckForExistingWizard(name))
-        // {
-        IEnumerable<Wizard> wizards = GetWizards();
-        IEnumerable<Wizard> matchingWizards = wizards.Where(wizard => wizard.Name == name);
-        if (!_IsNullOrEmpty(matchingWizards))
-        {
-            return matchingWizards.First();
-        }
-        return CreateWizard(name, element);
+        Dictionary<string, PlayerWizard> wizards = GetWizards();
+
+        PlayerWizard matchingWizard = wizards.ContainsKey(name) ? wizards[name] : CreateWizard(name, element);
+        return matchingWizard;
     }
 
-    public Wizard CreateWizard(string name, string element)
+    public bool CheckForWizard(string name)
     {
-        Wizard wizard = new Wizard(name, 10, 10, 10, element);
-        storage.WriteToFile<Wizard>(@"wizards.json", wizard);
+        return Wizards.ContainsKey(name);
+    }
+
+    public PlayerWizard CreateWizard(string name, string element)
+    {
+        PlayerWizard wizard = new PlayerWizard(name, element);
+        SaveWizardState(name, wizard);
         return wizard;
     }
+
+    public void SaveWizardState(string wizardName, PlayerWizard wizard)
+    {
+        storage.WriteToFile<PlayerWizard>(WIZARD_STORE_FILE_NAME, wizardName, wizard);
+        Wizards = GetWizards();
+    }
+
+    public EnemyWizard CreateEnemyWizard()
+    {
+        string[] enemyNames = storage.ReadFromFile<string[]>(@"enemyNames.json");
+        string enemyName = enemyNames.ElementAt(GenerateRandomInteger(enemyNames.Length));
+        string enemyElement = ELEMENTS.ElementAt(GenerateRandomInteger(ELEMENTS.Length));
+        string[] enemyDescriptors = storage.ReadFromFile<string[]>(@"enemyDescriptors.json");
+        string enemyDescriptor = enemyDescriptors.ElementAt(GenerateRandomInteger(enemyDescriptors.Length));
+        enemyName = $"{enemyDescriptor} {enemyName}";
+        EnemyWizard enemyWizard = new EnemyWizard(enemyName, enemyElement);
+        return enemyWizard;
+    }
+
 }

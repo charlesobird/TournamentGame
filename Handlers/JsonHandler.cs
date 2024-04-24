@@ -9,10 +9,21 @@ using System.Text.Json.Nodes;
 using Newtonsoft.Json;
 using TournamentGame.Models;
 
-// This Handler is to read from / write to wizards.json instead of a database
 class JsonHandler
 {
-    public dynamic ReadFromFile<T>(string fileName)
+    public dynamic ReadFromFile(string fileName)
+    {
+        try
+        {
+            string fileContents = File.ReadAllText(fileName);
+            return JsonConvert.DeserializeObject(fileContents);
+        }
+        catch (FileNotFoundException)
+        {
+            throw;
+        }
+    }
+        public dynamic ReadFromFile<T>(string fileName)
     {
         try
         {
@@ -24,33 +35,22 @@ class JsonHandler
             throw;
         }
     }
-    public void WriteToFile<T>(string fileName, T contentToAdd)
+    public void WriteToFile<T>(string fileName,string key, T contentToAdd)
     {
-        // if (File.Exists(fileName) && !string.IsNullOrEmpty(contents))
-        // {
-        //     File.WriteAllText(fileName, contents);
-        // }
         try
         {
-            string fileContents = File.ReadAllText(fileName);
-            var list = JsonConvert.DeserializeObject<List<T>>(fileContents);
-            // foreach (string key in keys){
-            //     foreach (dynamic value in values) {
-            //         list.Add(key)
-            //     }
-            // }
-            list.Add(contentToAdd);
-            var convertedJson = JsonConvert.SerializeObject(list, Formatting.Indented);
-            File.WriteAllText(fileName, convertedJson);
+            var jsonContents = ReadFromFile<Dictionary<string,T>>(fileName);
+            jsonContents[key] = contentToAdd;
+            File.WriteAllText(fileName, JsonConvert.SerializeObject(jsonContents, Formatting.Indented));
         }
         catch (FileNotFoundException)
         {
             throw;
         }
+        catch (NullReferenceException) {
+            throw;
+        }
     }
-    // public object AppendToObject() {
-    //     object test = new object();
-    // }
     public object ConvertToObject(string fileContents)
     {
         return JsonConvert.DeserializeObject(fileContents);

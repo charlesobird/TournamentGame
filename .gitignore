@@ -3,3 +3,4 @@
 .editorconfig
 .config/dotnet-tools.json
 .vscode/launch.json
+wizards.json
