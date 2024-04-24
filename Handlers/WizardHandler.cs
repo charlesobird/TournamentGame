@@ -9,7 +9,7 @@ namespace TournamentGame.Handlers;
 
 class WizardHandler
 {
-    public static Dictionary<string, PlayerWizard> Wizards { get; set; }
+    public static Dictionary<string, PlayerWizard>? Wizards { get; set; }
     public JsonHandler storage = new JsonHandler();
     public WizardHandler()
     {

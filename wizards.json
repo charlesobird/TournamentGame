@@ -16,5 +16,14 @@
     "MaxHealth": 118,
     "Dexterity": 5,
     "Wisdom": 7
+  },
+  "Test": {
+    "RoundsWon": 0,
+    "TheWiseOne": false,
+    "Hp": 5,
+    "Element": "Air",
+    "MaxHealth": 110,
+    "Dexterity": 9,
+    "Wisdom": 7
   }
 }

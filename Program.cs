@@ -81,7 +81,7 @@ class Program
     }
 
     static void Main(string[] args)
-    {   
+    {
         Console.Title = "The Wise One Tournament";
         Console.WriteLine("Welcome to the Tournament!");
         string isEnrolled = GetInput("Are you already enrolled? Yes or no?").ToLower();
@@ -133,7 +133,15 @@ class Program
             Environment.Exit(0);
         }
         PlayerWizard wizard = wizardStorage.GetWizard(name, element);
-        Console.WriteLine($"Welcome to the Tournament, {CreateElementText(wizard.Element,$"{name}")} of the {CreateElementText($"{wizard.Element}")} Wizards it's wonderful to have you here");
+        if (wizard.Element == "") // this is to avoid the issue of having no element if you have given a name that doesn't actually exist in wizards.json
+        {
+            string newElement = GetInput("What element would you like to choose?", true);
+            wizard.Element = newElement;
+            element = newElement;
+            wizardStorage.SaveWizardState(name, wizard);
+        }
+        string playerNameString = CreateElementText(element, $"{name}");
+        Console.WriteLine($"Welcome to the Tournament, {CreateElementText(wizard.Element, $"{name}")} of the {CreateElementText($"{wizard.Element}")} Wizards it's wonderful to have you here");
         Console.WriteLine($" Your Hp Stat is {wizard.Hp}\n Your Dexterity Stat is {wizard.Dexterity}\n Your Wisdom Stat is {wizard.Wisdom}\n Your Maximum Health is {wizard.MaxHealth}");
         // next day logic
         bool tourneyWon = false;
@@ -142,23 +150,22 @@ class Program
         {
             tourneyWon = true;
             dayEnded = true;
-        }        
+        }
+
         while (!dayEnded)
         {
             Console.Title = $"Round {wizard.RoundsWon + 1} of The Wise One Tournament";
             Console.WriteLine($"Welcome one and all to Round {wizard.RoundsWon + 1} of the Wise One Tour");
 
             EnemyWizard enemyWizard = wizardStorage.CreateEnemyWizard();
+
+            string enemyNameString = CreateElementText(enemyWizard.Element, $"{enemyWizard.Name}");
+
+
             Console.WriteLine($"Greetings! Today you will be fighting. The one, the only,");
-            Console.WriteLine($" {CreateElementText(enemyWizard.Element,$"{enemyWizard.Name}")} of the {CreateElementText($"{enemyWizard.Element}")} Wizards");
+            Console.WriteLine($" {enemyNameString} of the {CreateElementText($"{enemyWizard.Element}")} Wizards");
             Console.ResetColor();
             Console.WriteLine($" Their Hp Stat is {enemyWizard.Hp}\n Their Dexterity Stat is {enemyWizard.Dexterity}\n Their Wisdom Stat is {enemyWizard.Wisdom}\n Their Maximum Health is {enemyWizard.MaxHealth}");
-            // here decide if any element buffs are active, decide damage, then go into battle
-            // switch (wizard.Element) {
-            //     case "Air":
-            //         if (enemyWizard.Element == "")
-            // }
-
             string fightStarter = "";
             if (wizard.Dexterity > enemyWizard.Dexterity)
             {
@@ -193,31 +200,61 @@ class Program
             Console.WriteLine($"Let the fight begin!!\n {fightStarter} will go first!");
             int currPlayerHealth = wizard.MaxHealth;
             int currEnemyHealth = enemyWizard.MaxHealth;
-            // Entire Battle, turn based system
+            bool isBlocking = false;
+
             while (currPlayerHealth > 0 && currEnemyHealth > 0)
             {
                 if (fightStarter == enemyWizard.Name)
                 {
                     int damage = CalculateDamage(enemyWizard.Wisdom, wizard, enemyWizard, "ENEMY");
+                    if (isBlocking)
+                    {
+                        isBlocking = false;
+                        double breakChance = GenerateRandomDouble();
+                        if (breakChance <= PERFECT_BLOCK_PERCENTAGE_CHANCE)
+                        {
+                            fightStarter = name;
+                            Console.WriteLine($"{playerNameString} blocks {enemyNameString} attack completely! \n {playerNameString} took no damage!");
+                            continue;
+                        }
+                        else if (breakChance > PERFECT_BLOCK_PERCENTAGE_CHANCE)
+                        {
+                            Console.WriteLine($"{playerNameString} took a glancing blow and took half damage! {damage / 2} damage instead of {damage} damage");
+                            damage = damage / 2;
+                        }
+                    }
+
                     currPlayerHealth -= damage;
                     if (currPlayerHealth < 0)
                     {
                         currPlayerHealth = 0;
-                        
+
                     }
-                    Console.WriteLine($"{enemyWizard.Name} hits {name} for {damage} damage leaving {name} at {currPlayerHealth}!\n");
+                    Console.WriteLine($"{enemyNameString} hits {playerNameString} for {damage} damage leaving {playerNameString} at {currPlayerHealth}!\n");
                     fightStarter = name;
                 }
                 else
                 {
-                    int damage = CalculateDamage(enemyWizard.Wisdom, wizard, enemyWizard, "PLAYER");
-                    currEnemyHealth -= damage;
-                    if (currPlayerHealth < 0)
+                    string action = GetInput("Do you wish to: Attack [A] on this turn or Block [B] the enemy's attack on the next turn?").ToUpper();
+                    switch (action)
                     {
-                        currEnemyHealth = 0;
+                        case "A":
+                            int damage = CalculateDamage(enemyWizard.Wisdom, wizard, enemyWizard, "PLAYER");
+                            currEnemyHealth -= damage;
+                            if (currPlayerHealth < 0)
+                            {
+                                currEnemyHealth = 0;
+                            }
+                            Console.WriteLine($"{playerNameString} hits {enemyNameString} for {damage} damage leaving {enemyNameString} at {currEnemyHealth}!\n");
+                            break;
+
+                        case "B":
+                            isBlocking = true;
+                            break;
+
                     }
-                    Console.WriteLine($"{name} hits {enemyWizard.Name} for {damage} damage leaving {enemyWizard.Name} at {currEnemyHealth}!\n");
                     fightStarter = enemyWizard.Name;
+
                 }
             }
 
@@ -225,11 +262,13 @@ class Program
             // if the game crashes or you leave before the end of the round, the round is forgotten
             if (currEnemyHealth <= 0)
             {
-                Console.WriteLine($"{enemyWizard.Name} has been defeated!");
+                Console.WriteLine($"{enemyNameString} has been defeated!");
                 wizard.RoundsWon++;
                 wizardStorage.SaveWizardState(name, wizard);
-            } else if (currPlayerHealth <= 0) {
-                Console.WriteLine($"{name} has been defeated!");
+            }
+            else if (currPlayerHealth <= 0)
+            {
+                Console.WriteLine($"{playerNameString} has been defeated!");
             }
             dayEnded = true;
         }
@@ -239,7 +278,7 @@ class Program
         }
         if (tourneyWon)
         {
-            Console.WriteLine($"You have won the tournament, Wizard {name}!\nYou have proven that {wizard.Element} is the strongest of them all!\n You are now declared as \"The Wise One\"!");
+            Console.WriteLine($"You have won the tournament, Wizard {playerNameString}!\nYou have proven that {wizard.Element} is the strongest of them all!\n You are now declared as \"The Wise One\"!");
             wizard.TheWiseOne = true;
             wizardStorage.SaveWizardState(name, wizard);
         }
